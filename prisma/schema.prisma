@@ -9,3 +9,59 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Gender {
+  MALE
+  FEMALE
+  NON_BINARY
+}
+
+model GeneralData {
+  id        String   @id @default(uuid())
+  userId    String
+  fullName  String
+  birthDate DateTime
+  gender    Gender
+  photo     String
+  email     String
+  phone     String
+  rg        String
+  cpf       String
+  cns       String
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Address {
+  id           String @id @default(uuid())
+  userId       String
+  state        String
+  city         String
+  street       String
+  number       String
+  neighborhood String
+  complement   String
+  user         User   @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id               String             @id @default(uuid())
+  username         String
+  password         String
+  generalData      GeneralData[]
+  address          Address[]
+  professionalData ProfessionalData[]
+}
+
+model ProfessionalData {
+  id            String  @id @default(uuid())
+  userId        String
+  council       String
+  councilState  String
+  councilNumber String
+  specialty     String
+  rqe           String
+  idUser        String
+  memedSync     Boolean
+  user          User    @relation(fields: [userId], references: [id])
+}

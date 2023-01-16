@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Gender" AS ENUM ('MALE', 'FEMALE', 'NON_BINARY');
+CREATE TYPE "Gender" AS ENUM ('MALE', 'FEMALE');
 
 -- CreateTable
 CREATE TABLE "GeneralData" (
@@ -55,6 +55,15 @@ CREATE TABLE "ProfessionalData" (
 
     CONSTRAINT "ProfessionalData_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "GeneralData_userId_key" ON "GeneralData"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Address_userId_key" ON "Address"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ProfessionalData_userId_key" ON "ProfessionalData"("userId");
 
 -- AddForeignKey
 ALTER TABLE "GeneralData" ADD CONSTRAINT "GeneralData_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

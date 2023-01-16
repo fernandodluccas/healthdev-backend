@@ -13,14 +13,13 @@ datasource db {
 enum Gender {
   MALE
   FEMALE
-  NON_BINARY
 }
 
 model GeneralData {
-  id        String   @id @default(uuid())
-  userId    String
+  id        String @id @default(uuid())
+  userId    String @unique
   fullName  String
-  birthDate DateTime
+  birthDate String
   gender    Gender
   photo     String
   email     String
@@ -34,7 +33,7 @@ model GeneralData {
 
 model Address {
   id           String @id @default(uuid())
-  userId       String
+  userId       String @unique
   state        String
   city         String
   street       String
@@ -45,17 +44,17 @@ model Address {
 }
 
 model User {
-  id               String             @id @default(uuid())
+  id               String            @id @default(uuid())
   username         String
   password         String
-  generalData      GeneralData[]
-  address          Address[]
-  professionalData ProfessionalData[]
+  generalData      GeneralData?
+  address          Address?
+  professionalData ProfessionalData?
 }
 
 model ProfessionalData {
   id            String  @id @default(uuid())
-  userId        String
+  userId        String  @unique
   council       String
   councilState  String
   councilNumber String
